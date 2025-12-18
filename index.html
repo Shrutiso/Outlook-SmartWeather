@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Travel Recommendation System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h1>🌍 Smart Travel Recommendation System</h1>
+
+    <form method="POST" class="search-form">
+        <input type="text" name="city" placeholder="Enter City" required>
+
+        <select name="interest">
+            <option value="">Select Interest</option>
+            <option value="mountain">🏔 Mountain</option>
+            <option value="beach">🏖 Beach</option>
+            <option value="monuments">🏛 Monuments</option>
+            <option value="religious">🛕 Temples</option>
+            <option value="garden">🌳 Gardens</option>
+        </select>
+
+        <input type="number" name="budget" placeholder="Max Budget (₹/day)">
+
+        <button type="submit">Get Recommendation</button>
+    </form>
+
+    {% if weather %}
+    <div class="card">
+        <h2>🌦 Weather</h2>
+        <p>Temperature: {{ weather.temp }} °C</p>
+        <p>Humidity: {{ weather.humidity }} %</p>
+        <p>Condition: {{ weather.condition }}</p>
+    </div>
+    {% endif %}
+
+    {% if city_data %}
+    <div class="card">
+        <h2>📍 {{ city_data.city }}, {{ city_data.state }}</h2>
+
+        <p>💰 Estimated Budget: ₹{{ city_data.budget }} / day</p>
+        <p>🎯 Category: {{ city_data.category }}</p>
+
+        <ul>
+            {% for place in city_data.places %}
+            <li>
+                <a target="_blank"
+                   href="https://www.google.com/maps/search/{{ place | replace(' ', '+') }}+{{ city_data.city }}">
+                   📍 {{ place }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <a class="route-btn"
+           target="_blank"
+           href="https://www.google.com/maps/dir/?api=1&destination={{ city_data.city }}">
+           🗺 Route Direction
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
