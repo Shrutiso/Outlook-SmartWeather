@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="dashboard-bg">
+
+<div class="top-bar">
+    <h2>Weather Intelligence System</h2>
+    <div class="user">Hello, {{ user }}</div>
+</div>
+
+<div class="cards">
+
+    <div class="card">
+        <h3>Current Weather</h3>
+        <h1>{{ weather.temp }}°C</h1>
+        <p>Humidity: {{ weather.humidity }}%</p>
+        <p>{{ weather.condition }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Rain Tomorrow?</h3>
+        <p>Chance of Rain: 80%</p>
+        <strong>Take an Umbrella ☔</strong>
+    </div>
+
+    <div class="card">
+        <h3>Will My Clothes Dry?</h3>
+        <p><b>Not Ideal</b></p>
+        <small>Better dry indoors</small>
+    </div>
+
+</div>
+
+<div class="travel-card">
+    <h3>Travel Suggestion</h3>
+
+    <form method="POST">
+        <select name="city" required>
+            <option value="">Select City</option>
+            <option>Delhi</option>
+            <option>Goa</option>
+            <option>Jaipur</option>
+        </select>
+        <button type="submit">Get Recommendation</button>
+    </form>
+
+    {% if recommendation %}
+    <div class="result">
+        <h4>{{ recommendation.city }}, {{ recommendation.state }}</h4>
+        <p><b>Estimated Budget:</b> ₹{{ recommendation.budget }} / day</p>
+
+        <ul>
+            {% for place in recommendation.places %}
+            <li>📍 {{ place }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+
+<br>
+<a href="/logout" class="logout">Logout</a>
+
+</body>
+</html>
